@@ -9,11 +9,12 @@ async def set_game():
     global player_name
     global total_count
     if game == False:
-        game == True
+        game = True
     else:
         player_name = ''
         total_count =150
         game = False
+
 
 
 async def set_player_name(name):

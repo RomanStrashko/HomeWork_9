@@ -11,7 +11,6 @@ async def start_game(message: types.Message):
     first_turn = random.randint(0, 1)
     if first_turn == 1:
         await view.player_take(message)
-        await player_turn(message)
     else:
         await bot_turn(message)
 
@@ -37,10 +36,15 @@ async def player_turn(message: types.Message):
             await model.set_total_count(take)
         else:
             await view.wrong_take(message)
+            await view.player_take(message)
+            return
         name = await model.get_player_name()
         total_count = await model.get_total_count()
         if await model.get_total_count() > 0:
             await view.table_info(message, name, take, total_count, 'Бот')
-        if await model.get_total_count() <= 0:
+            await bot_turn(message)
+        else:
+
             await view.win(message, name, take, total_count)
             await model.set_game()
+
